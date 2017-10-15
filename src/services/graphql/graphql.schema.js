@@ -45,16 +45,15 @@ input postInput {
   category: Category
 }
 
-# the schema allows the following two queries:
+# the schema allows the following queries:
 type RootQuery {
-  viewer: User
   author(username: String!): User
   authors: [User]
   posts(category: Category): [Post]
   post(_id: String!) : Post
 }
 
-# this schema allows the following two mutations:
+# this schema allows the following mutations:
 type RootMutation {
   signUp (
     username: String!
@@ -62,7 +61,7 @@ type RootMutation {
     firstName: String
     lastName: String
   ): User
-  
+
   logIn (
     username: String!
     password: String!
@@ -71,20 +70,20 @@ type RootMutation {
   createPost (
     post: postInput
   ): Post
-  
+
   createComment (
     postId: String!
     content: String!
   ): Comment
-  
+
   removePost (
     _id: String! # _id of post to remove
   ): Post
-  
+
   removeComment (
     _id: String! # _id of comment to remove
   ): Comment
-  
+
 }
 
 # we need to tell the server which types represent the root query
@@ -95,6 +94,4 @@ schema {
 }
 `;
 
-
-
-export default [typeDefinitions]
+module.exports = [typeDefinitions];

@@ -1,18 +1,10 @@
-import request from 'request-promise';
-
-export default function Resolvers() {
+module.exports = function Resolvers() {
 
   let app = this;
 
   let Posts = app.service('posts');
   let Users = app.service('users');
   let Comments = app.service('comments');
-  let Viewer = app.service('viewer');
-
-  const localRequest = request.defaults({
-    baseUrl: `http://${app.get('host')}:${app.get('port')}`,
-    json: true
-  });
 
   return {
     User: {
@@ -47,9 +39,6 @@ export default function Resolvers() {
       }
     },
     RootQuery: {
-      viewer(root, args, context) {
-        return Viewer.find(context);
-      },
       author(root, { username }, context) {
         return Users.find({
           query: {
@@ -77,11 +66,7 @@ export default function Resolvers() {
         return Users.create(args)
       },
       logIn(root, {username, password}, context) {
-        return localRequest({
-          uri: '/auth/local',
-          method: 'POST',
-          body: { username, password }
-        });
+        return verifyPassword(app, username, password);
       },
       createPost(root, {post}, context) {
         return Posts.create(post, context);
@@ -98,5 +83,4 @@ export default function Resolvers() {
     }
 
   }
-}
-
+};
