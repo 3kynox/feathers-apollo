@@ -1,3 +1,5 @@
+// Initializes the `graphql` service on path `/graphql`
+
 const graphql = require('graphql-server-express').graphqlExpress;
 const graphiql = require('graphql-server-express').graphiqlExpress;
 const makeExecutableSchema = require('graphql-tools').makeExecutableSchema;
@@ -13,6 +15,7 @@ module.exports = function () {
     resolvers: Resolvers.call(app)
   });
 
+  // Initialize our service with any options it requires
   app.use('/graphql', graphql((req) => {
     const {token, provider} = req.feathers;
     return {

@@ -9,14 +9,18 @@ enum Category {
 
 type User {
   _id: String! # the ! means that every author object _must_ have an id
-  firstName: String
-  lastName: String
-  username: String!
+  email: String
+  permissions: String
   posts: [Post] # the list of Posts by this author
 }
 
+type AuthPayload {
+  token: String # JSON Web Token
+  data: User
+}
+
 type Post {
-  _id: String!
+  id: String!
   title: String
   category: String
   summary: String
@@ -27,15 +31,10 @@ type Post {
 }
 
 type Comment {
-  _id: String!
+  id: String!
   content: String!
   author: User
   createdAt: String
-}
-
-type AuthPayload {
-  token: String # JSON Web Token
-  data: User
 }
 
 input postInput {
@@ -49,8 +48,8 @@ input postInput {
 type RootQuery {
   author(username: String!): User
   authors: [User]
-  posts(category: Category): [Post]
   post(_id: String!) : Post
+  posts(category: Category): [Post]
 }
 
 # this schema allows the following mutations:
@@ -63,7 +62,7 @@ type RootMutation {
   ): User
 
   logIn (
-    username: String!
+    email: String!
     password: String!
   ): AuthPayload
 

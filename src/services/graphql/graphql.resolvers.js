@@ -1,9 +1,11 @@
+const request = require('request-promise');
+
 module.exports = function Resolvers() {
 
   let app = this;
 
-  let Posts = app.service('posts');
   let Users = app.service('users');
+  let Posts = app.service('posts');
   let Comments = app.service('comments');
 
   return {
