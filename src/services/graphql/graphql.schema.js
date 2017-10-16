@@ -20,7 +20,7 @@ type AuthPayload {
 }
 
 type Post {
-  id: String!
+  _id: String!
   title: String
   category: String
   summary: String
@@ -31,7 +31,7 @@ type Post {
 }
 
 type Comment {
-  id: String!
+  _id: String!
   content: String!
   author: User
   createdAt: String
