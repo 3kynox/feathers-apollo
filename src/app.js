@@ -1,18 +1,22 @@
 'use strict';
 
 const path = require('path');
-const serveStatic = require('feathers').static;
 const favicon = require('serve-favicon');
 const compress = require('compression');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+
 const feathers = require('feathers');
+const serveStatic = require('feathers').static;
 const configuration = require('feathers-configuration');
 const hooks = require('feathers-hooks');
 const rest = require('feathers-rest');
-const bodyParser = require('body-parser');
 const socketio = require('feathers-socketio');
+
 const middleware = require('./middleware');
 const services = require('./services');
+const appHooks = require('./app.hooks');
+const authentication = require('./authentication');
 const mongodb = require('./mongodb');
 
 const app = feathers();
@@ -26,10 +30,11 @@ app.use(compress())
   .use('/', serveStatic(app.get('public')))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  .configure(mongodb)
   .configure(hooks())
+  .configure(mongodb)
   .configure(rest())
   .configure(socketio())
+  .configure(authentication)
   .configure(services)
   .configure(middleware);
 
